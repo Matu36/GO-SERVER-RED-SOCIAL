@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 
+	"example.com/RED-SOCIAL/awsgo"
 	"github.com/aws/aws-lambda-go/events"
 	lambda "github.com/aws/aws-lambda-go/lambda"
 )
@@ -16,6 +17,8 @@ func main() {
 
 func ejecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var res *events.APIGatewayProxyResponse
+
+	awsgo.InicializoAWS()
 
 	if !ValidoParametros() {
 		res = &events.APIGatewayProxyResponse{
