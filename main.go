@@ -7,6 +7,7 @@ import (
 
 	"github.com/Matu36/RED-SOCIAL/awsgo"
 	"github.com/Matu36/RED-SOCIAL/bd"
+	"github.com/Matu36/RED-SOCIAL/handlers"
 	"github.com/Matu36/RED-SOCIAL/models"
 
 	"github.com/Matu36/RED-SOCIAL/secretmanager"
@@ -72,6 +73,20 @@ func ejecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 			},
 		}
 		return res, nil
+	}
+
+	respAPI := handlers.Manejadores(awsgo.Ctx, request)
+	if respAPI.CustomResp == nil {
+		res = &events.APIGatewayProxyResponse{
+			StatusCode: respAPI.Status,
+			Body:       respAPI.Message,
+			Headers: map[string]string{
+				"Content-Type": "application/json",
+			},
+		}
+		return res, nil
+	} else {
+		return respAPI.CustomResp, nil
 	}
 
 }
