@@ -3,8 +3,13 @@ package main
 import (
 	"context"
 	"os"
+	"strings"
 
-	"example.com/RED-SOCIAL/awsgo"
+	"github.com/Matu36/RED-SOCIAL/awsgo"
+	"github.com/Matu36/RED-SOCIAL/bd"
+	"github.com/Matu36/RED-SOCIAL/models"
+
+	"github.com/Matu36/RED-SOCIAL/secretmanager"
 	"github.com/aws/aws-lambda-go/events"
 	lambda "github.com/aws/aws-lambda-go/lambda"
 )
@@ -30,6 +35,45 @@ func ejecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 		}
 		return res, nil
 	}
+
+	SecretModel, err := secretmanager.GetSecret(os.Getenv("SecretName"))
+
+	if err != nil {
+		res = &events.APIGatewayProxyResponse{
+			StatusCode: 400,
+			Body:       "Error en la lectura de Secret" + err.Error(),
+			Headers: map[string]string{
+				"Content-Type": "application/json",
+			},
+		}
+		return res, nil
+	}
+
+	path := strings.Replace(request.PathParameters["RED-SOCIAL"], os.Getenv("UrlPrefix"), "", -1) //Esto lo que hace es eliminar el prefijo de la ruta que le pasamos en el array para que la ruta quede limpia
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("path"), path)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("method"), request.HTTPMethod)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("user"), SecretModel.Username)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("password"), SecretModel.Password)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("host"), SecretModel.Host)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("database"), SecretModel.Database)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("jwtSign"), SecretModel.JWTSign)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("body"), request.Body)
+	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("bucketName"), os.Getenv("BucketName"))
+
+	//Chequeo de conexion a base de datos
+
+	err = bd.ConectarBD(awsgo.Ctx)
+	if err != nil {
+		res = &events.APIGatewayProxyResponse{
+			StatusCode: 500,
+			Body:       "Error Conectando la base de datos" + err.Error(),
+			Headers: map[string]string{
+				"Content-Type": "application/json",
+			},
+		}
+		return res, nil
+	}
+
 }
 
 func ValidoParametros() bool {
