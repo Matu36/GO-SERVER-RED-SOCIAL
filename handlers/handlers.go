@@ -6,6 +6,7 @@ import (
 
 	"github.com/Matu36/RED-SOCIAL/jwt"
 	"github.com/Matu36/RED-SOCIAL/models"
+	"github.com/Matu36/RED-SOCIAL/routers"
 	"github.com/aws/aws-lambda-go/events"
 )
 
@@ -15,7 +16,7 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 	var r models.ResApi
 	r.Status = 400
 
-	isOK, statusCode, msg, claim := validoAuthorization(ctx, request)
+	isOK, statusCode, msg, _ := validoAuthorization(ctx, request)
 	if !isOK {
 		r.Status = statusCode
 		r.Message = msg
