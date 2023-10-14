@@ -20,6 +20,8 @@ func LeoTweets(ID string, pagina int64) ([]*models.DevuelvoTweets, bool) {
 		"userid": ID,
 	}
 
+	//PAGINADO//
+
 	opciones := options.Find()
 	opciones.SetLimit(20)
 	opciones.SetSort(bson.D{{Key: "fecha", Value: -1}})
