@@ -23,6 +23,7 @@ func ModificoRegistro(u models.Usuario, ID string) (bool, error) {
 		registro["apellidos"] = u.Apellidos
 
 		registro["fechaNacimiento"] = u.FechaNacimiento
+
 		if len(u.Avatar) > 0 {
 			registro["avatar"] = u.Avatar
 		}
@@ -53,3 +54,5 @@ func ModificoRegistro(u models.Usuario, ID string) (bool, error) {
 
 	return true, nil
 }
+
+// VIDEO 61 MINUTO 7:00, VER QUE HACE CON EL TOKEN EN POSTMAN
