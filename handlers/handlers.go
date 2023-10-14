@@ -16,7 +16,7 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 	var r models.ResApi
 	r.Status = 400
 
-	isOK, statusCode, msg, _ := validoAuthorization(ctx, request)
+	isOK, statusCode, msg, claim := validoAuthorization(ctx, request)
 	if !isOK {
 		r.Status = statusCode
 		r.Message = msg
@@ -29,13 +29,19 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 		case "registro":
 			return routers.Registro(ctx)
 
+		case "login":
+			return routers.Login(ctx)
 		}
+
 	case "GET":
 		switch ctx.Value(models.Key("path")).(string) {
-
+		case "verperfil":
+			return routers.VerPerfil(request)
 		}
 	case "PUT":
 		switch ctx.Value(models.Key("path")).(string) {
+		case "modificarPerfil":
+			return routers.ModificarPerfil(ctx, claim)
 
 		}
 	case "DELETE":

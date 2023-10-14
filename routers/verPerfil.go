@@ -23,7 +23,7 @@ func VerPerfil(request events.APIGatewayProxyRequest) models.ResApi {
 
 	perfil, err := bd.BuscoPerfil(ID)
 	if err != nil {
-		r.Message = "Ocurrió un error al intentar buscar el registro ", +err.Error()
+		r.Message = "Ocurrió un error al intentar buscar el registro " + err.Error()
 		return r
 	}
 	respJson, err := json.Marshal(perfil)
@@ -37,3 +37,5 @@ func VerPerfil(request events.APIGatewayProxyRequest) models.ResApi {
 	r.Message = string(respJson)
 	return r
 }
+
+//MINUTO 1:50 DE VER PERFIL EXPLICAR EL TEMA DEL BEARER (TOKEN). VIDEO 58
