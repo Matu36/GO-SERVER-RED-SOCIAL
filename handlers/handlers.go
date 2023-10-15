@@ -55,17 +55,25 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 			return routers.ObtenerImagen(ctx, "A", request, claim)
 		case "obtenerBanner":
 			return routers.ObtenerImagen(ctx, "B", request, claim)
+		case "consultaRelacion":
+			return routers.ConsultaRelacion(request, claim)
+		case "listaUsuarios":
+			return routers.ListaUsuarios(request, claim)
 		}
+
 	case "PUT":
 		switch ctx.Value(models.Key("path")).(string) {
 		case "modificarPerfil":
 			return routers.ModificarPerfil(ctx, claim)
 
 		}
+
 	case "DELETE":
 		switch ctx.Value(models.Key("path")).(string) {
 		case "eliminarTweet":
 			return routers.EliminarTweet(request, claim)
+		case "bajaRelacion":
+			return routers.BajaRelacion(request, claim)
 
 		}
 	}
