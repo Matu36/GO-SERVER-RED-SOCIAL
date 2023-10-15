@@ -47,9 +47,9 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 
 	case "GET":
 		switch ctx.Value(models.Key("path")).(string) {
-		case "verperfil":
+		case "verPerfil":
 			return routers.VerPerfil(request)
-		case "leotweets":
+		case "leoTweets":
 			return routers.LeoTweets(request)
 		case "obtenerAvatar":
 			return routers.ObtenerImagen(ctx, "A", request, claim)
