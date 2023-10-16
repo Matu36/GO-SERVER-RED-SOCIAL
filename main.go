@@ -16,16 +16,17 @@ import (
 )
 
 func main() {
-
+	// Inicia la función lambda, que se activa cuando ocurre un evento
 	lambda.Start(ejecutoLambda)
 
 }
 
 func ejecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var res *events.APIGatewayProxyResponse
-
+	// Inicializa la configuración de AWS, como la región
 	awsgo.InicializoAWS()
 
+	// Valida si se proporcionan los parámetros necesarios en las variables de entorno
 	if !ValidoParametros() {
 		res = &events.APIGatewayProxyResponse{
 			StatusCode: 400,
@@ -37,6 +38,7 @@ func ejecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 		return res, nil
 	}
 
+	// Obtiene el secreto almacenado en AWS Secrets Manager
 	SecretModel, err := secretmanager.GetSecret(os.Getenv("SecretName"))
 
 	if err != nil {
@@ -50,6 +52,7 @@ func ejecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 		return res, nil
 	}
 
+	// Procesa la ruta eliminando el prefijo y configura el contexto para la solicitud
 	path := strings.Replace(request.PathParameters["twittergo"], os.Getenv("UrlPrefix"), "", -1) //Esto lo que hace es eliminar el prefijo de la ruta que le pasamos en el array para que la ruta quede limpia
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("path"), path)
 	awsgo.Ctx = context.WithValue(awsgo.Ctx, models.Key("method"), request.HTTPMethod)
@@ -75,8 +78,11 @@ func ejecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 		return res, nil
 	}
 
+	// Llama a la función Manejadores para procesar la solicitud y obtener una respuesta
 	respAPI := handlers.Manejadores(awsgo.Ctx, request)
 	if respAPI.CustomResp == nil {
+		// Si la función Manejadores no proporciona una respuesta personalizada,
+		//crea una respuesta predeterminada
 		res = &events.APIGatewayProxyResponse{
 			StatusCode: respAPI.Status,
 			Body:       respAPI.Message,
@@ -86,12 +92,14 @@ func ejecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 		}
 		return res, nil
 	} else {
+		// Devuelve la respuesta personalizada proporcionada por la función Manejadores
 		return respAPI.CustomResp, nil
 	}
 
 }
 
 func ValidoParametros() bool {
+	// Valida si se han configurado las variables de entorno necesarias
 	_, traeParametro := os.LookupEnv("SecretName")
 	if !traeParametro {
 		return traeParametro

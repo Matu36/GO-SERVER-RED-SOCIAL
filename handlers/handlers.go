@@ -10,6 +10,10 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
+// Esta función es el controlador principal que maneja las solicitudes HTTP.
+// Determina la acción a tomar en función de la ruta y el método HTTP.
+// Devuelve una respuesta de API personalizada.
+
 func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) models.ResApi {
 	fmt.Println("Voy a procesar " + ctx.Value(models.Key("path")).(string) + " > " + ctx.Value(models.Key("method")).(string))
 
@@ -25,6 +29,8 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 
 	switch ctx.Value(models.Key("method")).(string) {
 	case "POST":
+		// Maneja las solicitudes POST para diferentes rutas. Llama a funciones específicas
+		// para procesar cada tipo de solicitud y devuelve la respuesta correspondiente.
 		switch ctx.Value(models.Key("path")).(string) {
 		case "registro":
 			return routers.Registro(ctx)
@@ -85,8 +91,15 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 
 }
 
+// Esta función valida la autorización de una solicitud. Verifica si se proporcionó un token
+// de autorización y si es válido. Devuelve información sobre la validez del token.
+
 func validoAuthorization(ctx context.Context, request events.APIGatewayProxyRequest) (bool, int, string, models.Claim) {
 	path := ctx.Value(models.Key("path")).(string)
+
+	// Permite rutas sin token de autorización. Se utiliza para registro,
+	//inicio de sesión y otras rutas públicas.
+
 	if path == "registro" || path == "login" || path == "obtenerAvatar" || path == "obtenerBanner" {
 		return true, 200, "", models.Claim{}
 	}
