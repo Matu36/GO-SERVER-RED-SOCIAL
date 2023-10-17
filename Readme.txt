@@ -18,7 +18,7 @@ LA CONEXION QUE NOS PIDE COMPASS.
 
 
 LAMBDA -> PERMITE EJECUTAR CODIGO SIN PENSAR EN LOS SERVIDORES.
-ES UN SERVICIO SERVER LESS (NO HAY QUE PREOCUPARSE POR LA INSFRAESTRUCTURA QUE HAY
+ES UN SERVICIO SERVER LESS (NO HAY QUE PREOCUPARSE POR LA INFRAESTRUCTURA QUE HAY
 DEBAJO DE ESE SERVICIO, YA QUE AMAZON VA A ADMINISTRAR NUESTROS RECURSOS Y PODAMOS SUBIR CODIGO
 Y QUE ESE CODIGO SE PUEDA EJECUTAR)
 
@@ -43,7 +43,7 @@ Va a conceder permiso a API Gateway para invocar la función Lambda:
 arn:aws:lambda:us-east-1:964820568970:function:TWITTER
 
 CREAMOS LA API Y LUEGO LA IMPLEMENTAMOS.
-me da esta url: https://l2lfhhxmk7.execute-api.us-east-1.amazonaws.com/twitter --> 
+me da esta url: "GUARDADA EN POSTMAN! --> 
 ruta del back para usar en postman
 
 Una vez que tenemos la api completa desactivar en API GATEWAY - registros rastreo, cloudwatch
