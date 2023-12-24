@@ -15,10 +15,10 @@ func GetSecret(secretName string) (models.Secret, error) {
 	fmt.Println("> Pido Secreto " + secretName)
 
 	// Crea un cliente para interactuar con AWS Secrets Manager
-	SVC := secretsmanager.NewFromConfig(awsgo.Cfg)
+	svc := secretsmanager.NewFromConfig(awsgo.Cfg)
 
 	// Llama a AWS Secrets Manager para obtener el secreto
-	clave, err := SVC.GetSecretValue(awsgo.Ctx, &secretsmanager.GetSecretValueInput{
+	clave, err := svc.GetSecretValue(awsgo.Ctx, &secretsmanager.GetSecretValueInput{
 		SecretId: aws.String(secretName),
 	})
 

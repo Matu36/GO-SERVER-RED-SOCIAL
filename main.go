@@ -17,11 +17,11 @@ import (
 
 func main() {
 	// Inicia la función lambda, que se activa cuando ocurre un evento
-	lambda.Start(ejecutoLambda)
+	lambda.Start(EjecutoLambda)
 
 }
 
-func ejecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	var res *events.APIGatewayProxyResponse
 	// Inicializa la configuración de AWS, como la región
 	awsgo.InicializoAWS()
