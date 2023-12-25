@@ -408,5 +408,16 @@ secretos, como contraseñas, claves de API u otra información confidencial.
 METODOS, VARIABLES, ETC:
 
 
+COMPILACION:
+PEGAR ESTO EN LA CONSOLA Y EJECUTARLO, ES LA FORMA DE COMPILAR
+EL MAIN.GO PARA LINUX A GO, 
+YA QUE AMAZON WEB SERVICES USA LINUX POR DETRÁS.
+$env:GOOS = "linux"
+$env:GOARCH = "amd64"
+go build -o main main.go
+
+Una vez que hacemos eso y se comprime en zip, lo subimos al codigo de la lambda.
+
+
 
 
