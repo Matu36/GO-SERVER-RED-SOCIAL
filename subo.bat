@@ -1,7 +1,8 @@
 git add .
 git commit -m "Subiendo a lambda"
 git push
-GOOS=linux GOARCH=amd64 go build -o main main.go
+go build -o main -tags "linux amd64" main.go
+
 @REM go build -o main main.go
 del main.zip      
 tar.exe -a -cf main.zip main 
