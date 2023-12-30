@@ -29,7 +29,7 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 	headers := map[string]string{
 		"Access-Control-Allow-Origin":      "*",
-		"Access-Control-Allow-Methods":     "GET, POST, PUT, DELETE, OPTIONS",
+		"Access-Control-Allow-Methods":     "OPTIONS",
 		"Access-Control-Allow-Headers":     "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token",
 		"Access-Control-Allow-Credentials": "true",
 	}
@@ -103,9 +103,9 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 		res = &events.APIGatewayProxyResponse{
 			StatusCode: respAPI.Status,
 			Body:       respAPI.Message,
-			Headers: map[string]string{
-				"Content-Type": "application/json",
-			},
+			Headers:    headers,
+			// map[string]string{
+			// 	"Content-Type": "application/json",
 		}
 		return res, nil
 	} else {
