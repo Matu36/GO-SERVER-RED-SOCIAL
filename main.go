@@ -28,10 +28,9 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 	awsgo.InicializoAWS()
 
 	headers := map[string]string{
-		"Access-Control-Allow-Origin":      "*",
-		"Access-Control-Allow-Methods":     "OPTIONS, GET, POST, PUT, DELETE",
-		"Access-Control-Allow-Headers":     "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token",
-		"Access-Control-Allow-Credentials": "true",
+		"Access-Control-Allow-Origin":  "*",
+		"Access-Control-Allow-Methods": "OPTIONS, GET, POST, PUT, DELETE",
+		"Access-Control-Allow-Headers": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token",
 	}
 
 	// Si la solicitud es una OPTIONS (preflight), responde con encabezados CORS sin procesar la solicitud.
