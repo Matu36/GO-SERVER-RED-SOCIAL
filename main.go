@@ -31,6 +31,7 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 		"Access-Control-Allow-Methods":     "OPTIONS",
 		"Access-Control-Allow-Headers":     "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token",
 		"Access-Control-Allow-Credentials": "true",
+		"Access-Control-Allow-Origin":      "*",
 	}
 
 	// Si la solicitud es una OPTIONS (preflight), responde con encabezados CORS sin procesar la solicitud.
