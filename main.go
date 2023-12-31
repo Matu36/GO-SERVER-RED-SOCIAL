@@ -41,7 +41,7 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 	headers := map[string]string{
 
-		"Access-Control-Allow-Origin":      "http://localhost:3001",
+		"Access-Control-Allow-Origin":      "*",
 		"Access-Control-Allow-Methods":     "OPTIONS, GET, POST, PUT, DELETE",
 		"Access-Control-Allow-Headers":     "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token",
 		"Access-Control-Allow-Credentials": "true",
