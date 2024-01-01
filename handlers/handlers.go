@@ -20,9 +20,9 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 	var r models.ResApi
 	r.Status = 400
 
-	isOK, StatusCode, msg, claim := validoAuthorization(ctx, request)
-	if !isOK {
-		r.Status = StatusCode
+	isOk, statusCode, msg, claim := validoAuthorization(ctx, request)
+	if !isOk {
+		r.Status = statusCode
 		r.Message = msg
 		fmt.Printf("Error en la autorización: %s\n", msg)
 		return r

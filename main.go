@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"net/http"
 	"os"
 	"strings"
 
@@ -37,23 +36,6 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 			},
 		}
 		return res, nil
-	}
-
-	headers := map[string]string{
-
-		"Access-Control-Allow-Origin":      "*",
-		"Access-Control-Allow-Methods":     "OPTIONS, GET, POST, PUT, DELETE",
-		"Access-Control-Allow-Headers":     "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token",
-		"Access-Control-Allow-Credentials": "true",
-	}
-
-	// Si la solicitud es una OPTIONS (preflight), responde con encabezados CORS sin procesar la solicitud.
-	if request.HTTPMethod == http.MethodOptions {
-		return &events.APIGatewayProxyResponse{
-			StatusCode: http.StatusOK,
-			Headers:    headers,
-			Body:       "",
-		}, nil
 	}
 
 	// Obtiene el secreto almacenado en AWS Secrets Manager
@@ -104,11 +86,9 @@ func EjecutoLambda(ctx context.Context, request events.APIGatewayProxyRequest) (
 		res = &events.APIGatewayProxyResponse{
 			StatusCode: respAPI.Status,
 			Body:       respAPI.Message,
-			Headers:    headers,
-
-			// map[string]string{
-			// 	"Content-Type": "application/json",
-			// },
+			Headers: map[string]string{
+				"Content-Type": "application/json",
+			},
 		}
 		return res, nil
 	} else {
