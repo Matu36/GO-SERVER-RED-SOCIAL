@@ -20,11 +20,10 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 	var r models.ResApi
 	r.Status = 400
 
-	isOk, statusCode, msg, claim := validoAuthorization(ctx, request)
-	if !isOk {
+	isOK, statusCode, msg, claim := validoAuthorization(ctx, request)
+	if !isOK {
 		r.Status = statusCode
 		r.Message = msg
-		fmt.Printf("Error en la autorización: %s\n", msg)
 		return r
 	}
 
@@ -50,9 +49,6 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 		case "subirBanner":
 			return routers.UploadImage(ctx, "B", request, claim)
 
-		default:
-			fmt.Printf("Error: Ruta POST no manejada - %s\n", ctx.Value(models.Key("path")).(string))
-
 		}
 
 	case "GET":
@@ -71,9 +67,6 @@ func Manejadores(ctx context.Context, request events.APIGatewayProxyRequest) mod
 			return routers.ListaUsuarios(request, claim)
 		case "leoTweetsSeguidores":
 			return routers.LeoTweetsSeguidores(request, claim)
-
-		default:
-			fmt.Printf("Error: Ruta GET no manejada - %s\n", ctx.Value(models.Key("path")).(string))
 		}
 
 	case "PUT":
